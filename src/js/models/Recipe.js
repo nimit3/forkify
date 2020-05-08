@@ -16,7 +16,7 @@ export default class Recipe {
             this.url = res.data.recipe.source_url;
         }
         catch(error){
-            alert('something went wrong in searching recipe');
+            alert('something went wrong in searching recipe :(');
         }
     }
 
@@ -58,10 +58,10 @@ export default class Recipe {
                 let count;
                 // 2nd ex "4 cups" just one number of unit
                 if(arrcCount.length === 1){
-                    count = eval(arrIng[0].replace('-', '+'));
+                    count = eval(arrIng[0].replace('-', '+')); //ex 1-1/3 cup sugar (not 1 minus 1/3. here its 4/3)
                 }
                 else {
-                    //here ex eval("4+1/2") will turn out 4.5...  here in eval we cal calculate even the elements are string
+                    //here ex eval["4+1/2"] will turn out 4.5...  here in eval we can calculate even the elements are string
                     count = eval(arrIng.slice(0, unitIndex).join('+'));
                 }
 
@@ -91,8 +91,8 @@ export default class Recipe {
         return objIng;
 
         });
-        this.ingredients = newIngredients;
-        //console.log(newIngredients);
+    this.ingredients = newIngredients;
+    //console.log(newIngredients);
     }
 
     //type inc or dec 

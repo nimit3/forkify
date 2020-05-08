@@ -23,3 +23,5 @@ export let deleteItem = id => {
     let item = document.querySelector(`[data-itemid="${id}"]`);
     if(item) item.parentElement.removeChild(item);
 };
+
+export let clearList = () => { elements.shopping.innerHTML='' };

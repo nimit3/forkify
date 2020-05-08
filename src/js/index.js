@@ -33,7 +33,7 @@ const controlSearch = async () => {
             //4) search for recipes
             await state.search.getResults(); //that function returns a promise so that's why we need to write await and becase of that whole function needs to be async too   
             //5) give results on UI
-
+            //console.log(state.search.result)
             searchView.renderResults(state.search.result);
             clearLoader();
         } catch(error){
@@ -74,9 +74,9 @@ let controlRecipe = async () => {
         renderLoader(elements.recipe);
 
         //highlight selected search item
-        if(state.search){
-        searchView.highlightSelected(id);
-        }
+        //if(state.search){
+        //searchView.highlightSelected(id);
+        //}
         //2) create a new recipe objects
         state.recipe = new Recipe(id);
         try{
@@ -94,7 +94,7 @@ let controlRecipe = async () => {
                 state.recipe,
                 state.likes.isLiked(id)
                 ); 
-            elements.shopping.innerHTML='';    
+            listView.clearList(); //for previous clearing shopping list menu   
 
         }catch(error){
             console.log(error);
@@ -107,7 +107,7 @@ let controlRecipe = async () => {
 //adding 2 event listener at a same time --1 is "hashchange" ---2 is "load"(for controling last clicked ecipe's state)
 
 //window.addEventListener('hashchange', controlRecipe);
-
+//window.addEventListener('hashchange', controlRecipe);
 //for saving its state 
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 

@@ -1,14 +1,14 @@
 import { elements } from './base';
 
-export const getInput = () => elements.searchInput.value; //one line arrow function means it will implicitly return the input value
+export const getInput = () => elements.searchInput.value; 
 
 export const clearInput = () =>{
     elements.searchInput.value='';
 };
 //for clearing previous search result
 export const clearResults =() =>{
-    elements.searchResultList.innerHTML =" ";
-    elements.searchResPages.innerHTML=" "; //for removing the navigation button
+    elements.searchResultList.innerHTML ="";
+    elements.searchResPages.innerHTML=""; //for removing the navigation button
 
 };
 
@@ -20,6 +20,7 @@ export let highlightSelected = id => {
     });
 
     document.querySelector(`.results__link[href="#${id}"]`).classList.add('results__link--active');
+    //document.querySelector(`.likes__link[href="#${id}"]`).classList.add('likes__link--active');
 }
 
 //  6          11        16    20 
@@ -55,7 +56,7 @@ const renderRecipes = (recipe) => {
     `;
     elements.searchResultList.insertAdjacentHTML('beforeend', markup);
 }
-//data-* HTML 5 property
+//data-* HTML 5 property //type: 'prev' or 'next'
 const createButton = (page, type) => `
         <button class="btn-inline results__btn--${type}" data-goto=${type === 'prev' ? page - 1: page + 1 }>
             <span>Page ${type === 'prev' ? page - 1: page + 1 }</span>
@@ -65,8 +66,8 @@ const createButton = (page, type) => `
         </button>
 `;
 
-const renderButtons = (page, numResults, restPerPage) => {
-    const pages = Math.ceil(numResults / restPerPage); //30/10=3 pages 33/10 = 3.3 ceil = 4 page(last 3 will be diplayed too)
+const renderButtons = (page, numResults, resPerPage) => {
+    const pages = Math.ceil(numResults / resPerPage); //30/10=3 pages 33/10 = 3.3 ceil = 4 page(last 3 will be diplayed too)
     let button;
         if(page === 1 && pages > 1){
             //Only btn to go to next page
@@ -83,7 +84,7 @@ const renderButtons = (page, numResults, restPerPage) => {
             //only btn to go to previous page
             button = createButton(page , 'prev');
         }
-    elements.searchResPages.insertAdjacentHTML('afterbegin', button);
+    elements.searchResPages.insertAdjacentHTML('beforeend', button);
 };
 
 
@@ -92,7 +93,7 @@ export const renderResults = (recipes, page = 1, resPerPage = 10) =>{
     let start = (page - 1) * resPerPage;
     let end = page * resPerPage;
     
-    recipes.slice(start , end).forEach(renderRecipes); //becauuse of for each  every elements will automatically pass in renderecipes function
+    recipes.slice(start , end).forEach(renderRecipes); //becauuse of for each  every current elements will automatically pass in renderecipes function
     
     //render page navigation button
     renderButtons(page, recipes.length, resPerPage);
