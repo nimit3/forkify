@@ -74,9 +74,11 @@ let controlRecipe = async () => {
         renderLoader(elements.recipe);
 
         //highlight selected search item
-        //if(state.search){
-        //searchView.highlightSelected(id);
-        //}
+        /*
+        if(state.search){
+        searchView.highlightSelected(id);
+        }
+        */
         //2) create a new recipe objects
         state.recipe = new Recipe(id);
         try{
@@ -95,7 +97,7 @@ let controlRecipe = async () => {
                 state.likes.isLiked(id)
                 ); 
             listView.clearList(); //for previous clearing shopping list menu   
-
+            //console.log(state.recipe.ingredients)
         }catch(error){
             console.log(error);
             alert('error processing recipe');
@@ -118,7 +120,7 @@ let controlList = () =>{
     if(!state.list) state.list = new List()
     
     //2. add each ingredient to the list
-    elements.shopping.innerHTML=""; //for clearing the results everytime when addto shopping list is clicked
+    listView.clearList(); //for clearing the results everytime when addto shopping list is clicked
     state.recipe.ingredients.forEach(el => {
        let item = state.list.addItem(el.count, el.unit, el.ingredients);
        listView.renderItem(item);
@@ -163,7 +165,6 @@ let controlLike = () => {
             state.recipe.author,
             state.recipe.image
         );
-        console.log(newLike);
         //toggle the like button
         likesView.toggleLikeBtn(true); //because user hasn't liked recipe so true will be passed
         
@@ -180,14 +181,11 @@ let controlLike = () => {
         
         //remove like from UI list
         likesView.deleteLike(currentID);
-
     }
     likesView.toggleLikeMenu(state.likes.getNumLikes());
-
-
 };
 
-// Restore liked recipe when page load
+// Restore liked recipe when page is loaded from localStorage
 window.addEventListener('load', () => {
     state.likes = new Likes();
     
@@ -202,15 +200,14 @@ window.addEventListener('load', () => {
 
 });
 
-//--------------------------------------------------------------------------------------------------
+//------------------------ALL RECIPE SECTION EVENTS HANDLER(LIKE, + - SERVINGS, ADD_SHOPPING_LIST)-------------------
 //handling recipe button clicks (matches means event delegation)
 elements.recipe.addEventListener('click', (e) => {
     if(e.target.matches('.btn-decrease, .btn-decrease *' )){
-        //decrease btnis clicked
+        //decrease btn is clicked
         if(state.recipe.servings > 1){
         state.recipe.updateServings('dec');
         recipeView.updateServingsIndgredients(state.recipe);
-
         }
     }
     else if(e.target.matches('.btn-increase, .btn-increase *' )){
